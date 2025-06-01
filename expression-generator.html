@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html><head>
+<title>Expression Generator</title>
+<style>
+* {
+background-color: #222;
+color: #fff;
+font-size: 16px;
+font-family: arial;
+}
+input {
+width: 100px;
+}
+textarea {
+width: calc(100% - 8px);
+height: 80vh;
+resize: none;
+}
+</style>
+</head><body>
+<span>Generate</span>
+<input id="input1" type=number value=3>
+<span>positive integers going up to</span>
+<input id="input2" type=number value=12>
+<span>where the answer is</span>
+<input id="input3" type=number value=10>
+<span>using</span>
+<select id="opInput">
+<option value="+-*">addition, subtraction & multiplication</option>
+<option value="+-">addition & subtraction</option>
+<option value="+*">addition & multiplication</option>
+<option value="-*">subtraction & multiplication</option>
+<option value="+">addition only</option>
+<option value="-">subtraction only</option>
+<option value="*">multiplication only</option>
+</select>
+<button onclick="finalgeneration();">Submit</button>
+<br><textarea id="output" readonly=true></textarea><br>
+<span>Generated</span>
+<span id="comb">0</span>
+<span>combination(s)</span>
+<script>
+function calculate(exp) {
+exp = exp.replaceAll("-", "+-").split("+");
+sum = 0;
+for (i = 0; i < exp.length; i++) {
+pro = exp[i].split("*");
+sum += pro.reduce((acc, num) => acc * num, 1);
+}
+return sum;
+}
+function convert(number, radix, spacing) {
+if (number == 0) {return Array(spacing).fill(1)}
+a = [];
+while (number) {
+a.splice(0, 0, (number % radix + 1));
+number = Math.floor(number / radix);
+}
+return Array(spacing - a.length).fill(1).concat(a);
+}
+function generate(lim, len, op, filter) {
+out = [];
+for (z = 0; z < lim**len; z++) {
+x = convert(z, lim, len);
+for (o = 0; o < op.length**(len - 1); o++) {
+xo = convert(o, op.length, len - 1).join("");
+xo = xo.replaceAll("1", op.charAt(0));
+xo = xo.replaceAll("2", op.charAt(1));
+xo = xo.replaceAll("3", op.charAt(2));
+final = [x[0]];
+for (zz = 0; zz < xo.length; zz++) {
+final.push(xo[zz]);
+final.push(x[zz + 1]);
+}
+final = final.join("");
+answer = calculate(final);
+if (filter == answer) {
+out.push(final.replaceAll("+", " + ").replaceAll("-", " - ").replaceAll("*", " * ") + " = " + answer);
+}}}
+return out.join("\n");
+}
+function finalgeneration() {
+output.value = generate(input2.value, input1.value, opInput.value, input3.value);
+comb.innerHTML = output.value.split("\n").length;
+}
+</script>
+</body></html>
