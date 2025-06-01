@@ -23,7 +23,7 @@ resize: none;
 <span>positive integers going up to</span>
 <input id="input2" type=number value=12>
 <span>where the answer is</span>
-<input id="input3" type=number value=10>
+<input id="input3" type=number value=0>
 <span>using</span>
 <select id="opInput">
 <option value="+-*">addition, subtraction & multiplication</option>
@@ -50,7 +50,7 @@ sum += pro.reduce((acc, num) => acc * num, 1);
 return sum;
 }
 function convert(number, radix, spacing) {
-if (number == 0) {return Array(spacing).fill(1)}
+if (number == 0) {return Array(Number(spacing)).fill(1)}
 a = [];
 while (number) {
 a.splice(0, 0, (number % radix + 1));
