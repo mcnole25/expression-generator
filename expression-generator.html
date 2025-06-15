@@ -12,76 +12,68 @@ input {
 width: 100px;
 }
 textarea {
+font-size: 24px;
+font-family: "times new roman";
 width: calc(100% - 8px);
 height: 80vh;
 resize: none;
 }
 </style>
 </head><body>
-<span>Generate</span>
-<input id="input1" type=number value=3>
-<span>positive integers going up to</span>
-<input id="input2" type=number value=12>
-<span>where the answer is</span>
-<input id="input3" type=number value=0>
-<span>using</span>
-<select id="opInput">
-<option value="+-*">addition, subtraction & multiplication</option>
-<option value="+-">addition & subtraction</option>
-<option value="+*">addition & multiplication</option>
-<option value="-*">subtraction & multiplication</option>
-<option value="+">addition only</option>
-<option value="-">subtraction only</option>
-<option value="*">multiplication only</option>
-</select>
+<span>Generate expressions, n =</span>
+<input type="number" value=10 id="inputNum">
 <button onclick="finalgeneration();">Submit</button>
-<br><textarea id="output" readonly=true></textarea><br>
+<br><textarea id="output" readonly="true"></textarea><br>
 <span>Generated</span>
 <span id="comb">0</span>
-<span>combination(s)</span>
+<span>expression(s)</span>
 <script>
-function calculate(exp) {
-exp = exp.replaceAll("-", "+-").split("+");
-sum = 0;
-for (i = 0; i < exp.length; i++) {
-pro = exp[i].split("*");
-sum += pro.reduce((acc, num) => acc * num, 1);
-}
-return sum;
-}
-function convert(number, radix, spacing) {
-if (number == 0) {return Array(Number(spacing)).fill(1)}
-a = [];
-while (number) {
-a.splice(0, 0, (number % radix + 1));
-number = Math.floor(number / radix);
-}
-return Array(spacing - a.length).fill(1).concat(a);
-}
-function generate(lim, len, op, filter) {
-out = [];
-for (z = 0; z < lim**len; z++) {
-x = convert(z, lim, len);
-for (o = 0; o < op.length**(len - 1); o++) {
-xo = convert(o, op.length, len - 1).join("");
-xo = xo.replaceAll("1", op.charAt(0));
-xo = xo.replaceAll("2", op.charAt(1));
-xo = xo.replaceAll("3", op.charAt(2));
-final = [x[0]];
-for (zz = 0; zz < xo.length; zz++) {
-final.push(xo[zz]);
-final.push(x[zz + 1]);
-}
-final = final.join("");
-answer = calculate(final);
-if (filter == answer) {
-out.push(final.replaceAll("+", " + ").replaceAll("-", " - ").replaceAll("*", " * ") + " = " + answer);
-}}}
-return out.join("\n");
-}
 function finalgeneration() {
-output.value = generate(input2.value, input1.value, opInput.value, input3.value);
-comb.innerHTML = output.value.split("\n").length;
+N = Number(inputNum.value); RES = [];
+RES = factor(N).concat(mulAdd(N).concat(addMul(N).concat(partition(N)))).sort();
+function factor(number) {
+let factors = [];
+for (let i = 2; i <= Math.sqrt(number); i++) {
+if (number % i === 0) {
+for (let j = i; j <= Math.sqrt(number / i); j++) {
+if ((number / i) % j === 0) {
+let k = number / (i * j);
+factors.push(k + " * " + j + " * " + i);
+}}}}
+return factors;
+}
+function mulAdd(n) {
+ar = [];
+for (k = 1; k <= n; k++) {
+for (i = 2; i <= n; i++) {
+for (j = 2; j <= i; j++) {
+if ((i * j) + k == n) {
+ar.push(i + " * " + j + " + " + k);
+}}}}
+return ar;
+}
+function addMul(n) {
+ar = [];
+for (k = 2; k <= n; k++) {
+for (i = 1; i <= Math.ceil(n/k); i++) {
+for (j = 1; j <= i; j++) {
+if ((i + j) * k == n) {
+ar.push("(" + i + " + " + j + ") * " + k)
+}}}}
+return ar;
+}
+function partition(n) {
+ar = [];
+for (j = 0; j <= n; j++) {
+for (i = 0; i <= j; i++) {
+ii = j - i; iii = n - j;
+if (i <= ii && ii <= iii && i * ii * iii > 0) {
+ar.push(iii + " + " + ii + " + " + i);
+}}}
+return ar;
+}
+output.value = RES.join("\n");
+comb.innerHTML = RES.length;
 }
 </script>
 </body></html>
