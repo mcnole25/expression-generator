@@ -1,38 +1,23 @@
-Have you ever wondered how many ways can we do arithmetic to get an answer of, say, 5?
+How many ways can you add & multiply 3 numbers to equal n?
 
-Well, this question is pretty vague, so let's set up some rules.
-
-Let's say we want to combine 3 positive integers by addition, subtraction & multiplication to get an answer of 5.
-
-But how high should they go? If we set a limit of 3, we get 20 possibilities:
+If n were equal to, say, 8, then we get 11 possibilities.
 
 ```
-1 + 1 + 3 = 5
-1 + 2 + 2 = 5
-1 + 2 * 2 = 5
-1 * 2 + 3 = 5
-1 + 3 + 1 = 5
-1 * 3 + 2 = 5
-2 + 1 + 2 = 5
-2 + 1 * 3 = 5
-2 * 1 + 3 = 5
-2 + 2 + 1 = 5
-2 * 2 + 1 = 5
-2 + 3 * 1 = 5
-2 * 3 - 1 = 5
-3 + 1 + 1 = 5
-3 + 1 * 2 = 5
-3 * 1 + 2 = 5
-3 - 1 + 3 = 5
-3 + 2 * 1 = 5
-3 * 2 - 1 = 5
-3 + 3 - 1 = 5
+(1 + 1) * 4
+(2 + 2) * 2
+(3 + 1) * 2
+2 * 2 * 2
+2 * 2 + 4
+3 * 2 + 2
+3 + 3 + 2
+4 + 2 + 2
+4 + 3 + 1
+5 + 2 + 1
+6 + 1 + 1
 ```
 
-You can check all those in a calculator, all those expressions really do equal 5.
+Note: This program was rewritten to be faster & more efficient.
 
-We can also adjust every parameter, & get wildly different results! This generator follows the BODMAS convention (so multiplication takes precedence over addition & subtraction).
+Multiplication is normally performed over addition, from the order of operations convention. We use parentheses in addition to indicate calculation done there first.
 
-Does this generator take order into account? Yes. `5 + 2` & `2 + 5` are counted as different entries, even though they have the same value.
-
-You can also find partitions or factors of a number using this tool, although high numbers become very slow.
+This tool is pretty simple so we don't have many features yet.
