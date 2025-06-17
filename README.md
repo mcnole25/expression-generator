@@ -1,3 +1,5 @@
+**IMPORTANT NOTE: This program is deprecated. A tool has already been made to generate addition & multiplication in Fun With Numbers, within the "Console Tools" program. This repository will only be kept up here for archive reasons.**
+
 How many ways can you add & multiply 3 numbers to equal n?
 
 If n were equal to, say, 8, then we get 11 possibilities.
